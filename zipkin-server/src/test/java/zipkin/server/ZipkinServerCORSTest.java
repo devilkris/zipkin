@@ -22,8 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,13 +33,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest(
   classes = ZipkinServer.class,
-  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  properties = {
+    "spring.config.name=zipkin-server",
+    "zipkin.query.allowed-origins=" + ZipkinServerCORSTest.ALLOWED_ORIGIN
+  }
 )
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestPropertySource(properties = {
-  "spring.config.name=zipkin-server",
-  "zipkin.query.allowed-origins=" + ZipkinServerCORSTest.ALLOWED_ORIGIN
-})
+@RunWith(SpringRunner.class)
 public class ZipkinServerCORSTest {
   static final String ALLOWED_ORIGIN = "http://foo.example.com";
   static final String DISALLOWED_ORIGIN = "http://bar.example.com";

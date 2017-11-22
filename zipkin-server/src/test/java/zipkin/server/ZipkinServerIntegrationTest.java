@@ -29,8 +29,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import zipkin.Codec;
 import zipkin.Span;
 import zipkin.internal.ApplyTimestampAndDuration;
@@ -48,10 +47,10 @@ import static zipkin.internal.Util.UTF_8;
 
 @SpringBootTest(
   classes = ZipkinServer.class,
-  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  properties = "spring.config.name=zipkin-server"
 )
-@RunWith(SpringJUnit4ClassRunner.class)
-@TestPropertySource(properties = "spring.config.name=zipkin-server")
+@RunWith(SpringRunner.class)
 public class ZipkinServerIntegrationTest {
 
   @Autowired
